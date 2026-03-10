@@ -25,7 +25,7 @@ public class Library {
 
     public void viewBooks() {
         try (BufferedReader br = new BufferedReader(new FileReader("books.csv"))) {
-            String line;
+            String line = br.readLine(); // Skip header row
             System.out.println("\nAvailable Books:");
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
@@ -71,14 +71,18 @@ public class Library {
             BufferedReader reader = new BufferedReader(new FileReader(inputFile));
             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
 
-            String line;
+            String line = reader.readLine(); // Skip header row
             boolean bookFound = false;
 
             while ((line = reader.readLine()) != null) {
                 String[] bookDetails = line.split(",");
-                if (Integer.parseInt(bookDetails[0]) == bookId) {
-                    bookDetails[3] = "false"; // Mark as taken
-                    bookFound = true;
+                try {
+                    if (Integer.parseInt(bookDetails[0]) == bookId) {
+                        bookDetails[3] = "false"; // Mark as taken
+                        bookFound = true;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid book ID format in file: " + bookDetails[0]);
                 }
                 writer.write(String.join(",", bookDetails) + "\n");
             }

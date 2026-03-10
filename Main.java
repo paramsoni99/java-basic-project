@@ -10,13 +10,11 @@ public class Main {
 
         while (true) {
 
-            System.out.println("\n===== LIBRARY SYSTEM =====");
-            System.out.println("1 Add Book");
-            System.out.println("2 Add User");
-            System.out.println("3 Existing User");
-            System.out.println("4 View Available Books");
-            System.out.println("5 Show Users");
-            System.out.println("6 Exit");
+            System.out.println("\n===== WELCOME TO LIBRARY SYSTEM =====");
+            System.out.println("What would you like to perform today?");
+            System.out.println("1 Manage Books");
+            System.out.println("2 Manage Users");
+            System.out.println("3 Exit");
 
             System.out.print("Enter choice: ");
 
@@ -26,25 +24,101 @@ public class Main {
                 continue;
             }
 
-            int choice = sc.nextInt();
+            int mainChoice = sc.nextInt();
             sc.nextLine(); // Clear the buffer
 
-            switch (choice) {
+            switch (mainChoice) {
+                case 1:
+                    manageBooks(sc, lib);
+                    break;
+
+                case 2:
+                    manageUsers(sc, lib);
+                    break;
+
+                case 3:
+                    System.out.println("Exiting system. Goodbye!");
+                    sc.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void manageBooks(Scanner sc, Library lib) {
+        while (true) {
+            System.out.println("\n===== MANAGE BOOKS =====");
+            System.out.println("1 Add a New Book");
+            System.out.println("2 Borrow a Book");
+            System.out.println("3 Check Available Books");
+            System.out.println("4 Go Back");
+
+            System.out.print("Enter choice: ");
+
+            if (!sc.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a number.");
+                sc.next(); // Clear invalid input
+                continue;
+            }
+
+            int bookChoice = sc.nextInt();
+            sc.nextLine(); // Clear the buffer
+
+            switch (bookChoice) {
                 case 1:
                     lib.addBook(sc);
                     break;
 
                 case 2:
-                    lib.registerUser(sc);
+                    lib.borrowBook(sc);
                     break;
 
                 case 3:
+                    lib.viewBooks();
+                    break;
+
+                case 4:
+                    return;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void manageUsers(Scanner sc, Library lib) {
+        while (true) {
+            System.out.println("\n===== MANAGE USERS =====");
+            System.out.println("1 Add a New User");
+            System.out.println("2 Existing User");
+            System.out.println("3 Show All Users");
+            System.out.println("4 Go Back");
+
+            System.out.print("Enter choice: ");
+
+            if (!sc.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a number.");
+                sc.next(); // Clear invalid input
+                continue;
+            }
+
+            int userChoice = sc.nextInt();
+            sc.nextLine(); // Clear the buffer
+
+            switch (userChoice) {
+                case 1:
+                    lib.registerUser(sc);
+                    break;
+
+                case 2:
                     System.out.print("Enter User ID: ");
                     int existingUserId = sc.nextInt();
                     sc.nextLine();
 
                     try (BufferedReader br = new BufferedReader(new FileReader("users.csv"))) {
-                        String line;
+                        String line = br.readLine(); // Skip header row
                         boolean userFound = false;
                         while ((line = br.readLine()) != null) {
                             String[] userDetails = line.split(",");
@@ -62,14 +136,10 @@ public class Main {
                     }
                     break;
 
-                case 4:
-                    lib.viewBooks();
-                    break;
-
-                case 5:
+                case 3:
                     System.out.println("\nRegistered Users:");
                     try (BufferedReader br = new BufferedReader(new FileReader("users.csv"))) {
-                        String line;
+                        String line = br.readLine(); // Skip header row
                         while ((line = br.readLine()) != null) {
                             System.out.println(line);
                         }
@@ -78,9 +148,7 @@ public class Main {
                     }
                     break;
 
-                case 6:
-                    System.out.println("Exiting system. Goodbye!");
-                    sc.close();
+                case 4:
                     return;
 
                 default:
