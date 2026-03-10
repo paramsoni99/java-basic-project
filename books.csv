@@ -1,0 +1,10 @@
+BookID,Title,Author,Available
+101,Java Programming,Herbert Schildt,true
+102,Data Structures Using C,Reema Thareja,true
+103,Introduction to Algorithms,Thomas H Cormen,true
+104,Clean Code,Robert C Martin,true
+105,Operating System Concepts,Abraham Silberschatz,true
+106,Computer Networks,Andrew S Tanenbaum,true
+107,Artificial Intelligence A Modern Approach,Stuart Russell,true
+108,Database System Concepts,Abraham Silberschatz,true
+109,Python Crash Course,Eric Matthes,true
